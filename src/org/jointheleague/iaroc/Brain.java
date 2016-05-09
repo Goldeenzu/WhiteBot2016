@@ -30,7 +30,8 @@ public class Brain extends IRobotCreateAdapter {
     public void loop() throws ConnectionLostException {
         driveDirect(150,400);
         readSensors(6);
-        if (isBumpRight()) {
+        dashboard.log(getWallSignal()+"" );
+        if (getWallSignal() > 100||isBumpRight()) {
             driveDirect(500, -500);
             SystemClock.sleep(100);
         }
