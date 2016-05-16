@@ -27,10 +27,10 @@ public class Brain extends IRobotCreateAdapter {
 
     }
     /* This method is called repeatedly. */
-    public void loop() throws ConnectionLostException {
+    public void wallHugger() throws ConnectionLostException{
         driveDirect(200, 500);
         readSensors(6);
-        dashboard.log(getWallSignal()+"" );
+        dashboard.log(getWallSignal() + "");
         if (isBumpRight()) {
             driveDirect(500, -500);
             SystemClock.sleep(100);
@@ -43,5 +43,54 @@ public class Brain extends IRobotCreateAdapter {
             driveDirect(500,-500);
             SystemClock.sleep(500);
         }
+    }
+    public void goldRush() throws ConnectionLostException{
+        driveDirect(500,500);
+        SystemClock.sleep(2000);
+        driveDirect(500, -500);
+        SystemClock.sleep(500);
+        readSensors(SENSORS_INFRARED_BYTE);
+        int inByte = getInfraredByte();
+        driveDirect(-100,100);
+        int angle=0;
+        while(angle<360) {
+readSensors(6);
+            angle+=getAngle();
+        }
+            if (inByte == 255){
+            driveDirect(500, -500);
+            SystemClock.sleep(500);
+            readSensors(SENSORS_INFRARED_BYTE);
+            driveDirect(500, -500);
+            SystemClock.sleep(500);
+
+            driveDirect(500, -500);
+            SystemClock.sleep(500);
+            driveDirect(500, -500);
+            SystemClock.sleep(500);
+            readSensors(SENSORS_INFRARED_BYTE);
+        }
+        int inByte1 = getInfraredByte();
+        if (inByte1 == )
+
+        if(isBumpRight()){
+            driveDirect(-500,500);
+            SystemClock.sleep(500);
+        }
+        if(isBumpLeft()){
+            driveDirect(500,-500);
+            SystemClock.sleep(500);
+        }
+        if(isBumpRight()&&isBumpLeft()){
+            driveDirect(-500,500);
+            SystemClock.sleep(500);
+        }
+
+    }
+    public void loop() throws ConnectionLostException {
+        //wallHugger();
+        goldRush();
+
+
     }
 }
