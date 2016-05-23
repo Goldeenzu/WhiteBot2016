@@ -68,10 +68,24 @@ readSensors(6);
             SystemClock.sleep(500);
             driveDirect(500, -500);
             SystemClock.sleep(500);
-            readSensors(SENSORS_INFRARED_BYTE);
+
         }
-        int inByte1 = getInfraredByte();
-        if (inByte1 == )
+        if(inByte == 248) {
+            driveDirect(500,25);
+            SystemClock.sleep(1000);
+        }
+        if(inByte == 244) {
+            driveDirect(25, 500);
+            SystemClock.sleep(1000);
+        }
+        if(inByte == 252) {
+            driveDirect(500, 500);
+            SystemClock.sleep(2000);
+        }
+        if(inByte == 254) {
+            driveDirect(500, 500);
+            SystemClock.sleep(2000);
+        }
 
         if(isBumpRight()){
             driveDirect(-500,500);
@@ -89,7 +103,17 @@ readSensors(6);
     }
     public void loop() throws ConnectionLostException {
         //wallHugger();
-        goldRush();
+        //goldRush();
+        readSensors(SENSORS_INFRARED_BYTE);
+        int r = getInfraredByte();
+        dashboard.log(""+r);
+        driveDirect(200,200);
+        if(r == 252){
+            driveDirect(300,300);
+        }
+        if(r == 254){
+            driveDirect(0,0);
+        }
 
 
     }
