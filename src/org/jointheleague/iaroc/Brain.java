@@ -4,6 +4,7 @@ import android.os.SystemClock;
 
 import ioio.lib.api.IOIO;
 import ioio.lib.api.exception.ConnectionLostException;
+
 import org.wintrisstech.irobot.ioio.IRobotCreateAdapter;
 import org.wintrisstech.irobot.ioio.IRobotCreateInterface;
 import org.jointheleague.iaroc.sensors.UltraSonicSensors;
@@ -26,8 +27,9 @@ public class Brain extends IRobotCreateAdapter {
 
 
     }
+
     /* This method is called repeatedly. */
-    public void wallHugger() throws ConnectionLostException{
+    public void wallHugger() throws ConnectionLostException {
         driveDirect(200, 500);
         readSensors(6);
         dashboard.log(getWallSignal() + "");
@@ -35,85 +37,35 @@ public class Brain extends IRobotCreateAdapter {
             driveDirect(500, -500);
             SystemClock.sleep(100);
         }
-        if(getWallSignal() > 100){
-            driveDirect(500,200);
+        if (getWallSignal() > 100) {
+            driveDirect(500, 200);
             SystemClock.sleep(200);
         }
-        if(isBumpRight()&&isBumpLeft()){
-            driveDirect(500,-500);
+        if (isBumpRight() && isBumpLeft()) {
+            driveDirect(500, -500);
             SystemClock.sleep(500);
         }
     }
-    public void goldRush() throws ConnectionLostException{
-        driveDirect(500,500);
-        SystemClock.sleep(2000);
-        driveDirect(500, -500);
-        SystemClock.sleep(500);
+
+    public void goldRush() throws ConnectionLostException {
+
+        driveDirect(50, -50);
         readSensors(SENSORS_INFRARED_BYTE);
         int inByte = getInfraredByte();
-        driveDirect(-100,100);
-        int angle=0;
-        while(angle<360) {
-readSensors(6);
-            angle+=getAngle();
+        dashboard.log("" + inByte);
+        if (inByte != 255) {
+            driveDirect(0, 0);
+            SystemClock.sleep(10000);
+            driveDirect(50,50);
         }
-            if (inByte == 255){
-            driveDirect(500, -500);
-            SystemClock.sleep(500);
-            readSensors(SENSORS_INFRARED_BYTE);
-            driveDirect(500, -500);
-            SystemClock.sleep(500);
-
-            driveDirect(500, -500);
-            SystemClock.sleep(500);
-            driveDirect(500, -500);
-            SystemClock.sleep(500);
-
-        }
-        if(inByte == 248) {
-            driveDirect(500,25);
-            SystemClock.sleep(1000);
-        }
-        if(inByte == 244) {
-            driveDirect(25, 500);
-            SystemClock.sleep(1000);
-        }
-        if(inByte == 252) {
-            driveDirect(500, 500);
-            SystemClock.sleep(2000);
-        }
-        if(inByte == 254) {
-            driveDirect(500, 500);
-            SystemClock.sleep(2000);
-        }
-
-        if(isBumpRight()){
-            driveDirect(-500,500);
-            SystemClock.sleep(500);
-        }
-        if(isBumpLeft()){
-            driveDirect(500,-500);
-            SystemClock.sleep(500);
-        }
-        if(isBumpRight()&&isBumpLeft()){
-            driveDirect(-500,500);
-            SystemClock.sleep(500);
-        }
-
     }
+
+
+
+
     public void loop() throws ConnectionLostException {
         //wallHugger();
-        //goldRush();
-        readSensors(SENSORS_INFRARED_BYTE);
-        int r = getInfraredByte();
-        dashboard.log(""+r);
-        driveDirect(200,200);
-        if(r == 252){
-            driveDirect(300,300);
-        }
-        if(r == 254){
-            driveDirect(0,0);
-        }
+        goldRush();
 
 
     }
